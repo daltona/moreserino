@@ -1577,6 +1577,7 @@ void MorsePreferences::determineBoardVersion() {
         }
         else {MorsePreferences::boardVersion = 4; //DEBUG("boardV: 4");
         }
+        MorsePreferences::boardVersion = 3;
         pref.putUChar("boardVersion", MorsePreferences::boardVersion); 
     }
     pref.end();

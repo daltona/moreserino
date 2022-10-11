@@ -95,8 +95,8 @@ namespace Buttons
 
 
 /// where is the encoder?
-const int PinCLK=38;                   // Used for generating interrupts using CLK signal - needs external pullup resisitor! 
-const int PinDT=39;                    // Used for reading DT signal  - needs external pullup resisitor! 
+const int PinCLK=39;                   // Used for generating interrupts using CLK signal - needs external pullup resisitor! 
+const int PinDT=38;                    // Used for reading DT signal  - needs external pullup resisitor! 
 
 /// encoder switch (BLACK knob)
 const int modeButtonPin = 37;
@@ -118,7 +118,7 @@ const int LEFT = T2;        // = Pin 2
 const int RIGHT = T5;       // = Pin 12
 
 // Tx keyer 
-const int keyerPin = 25;        // this keys the transmitter / through a MOSFET Optocoupler - at the same time lights up the LED
+const int keyerPin = 2;        // this keys the transmitter / through a MOSFET Optocoupler - at the same time lights up the LED
 
 
 // audio in
