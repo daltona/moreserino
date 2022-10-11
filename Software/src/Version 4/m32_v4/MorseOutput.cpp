@@ -49,10 +49,6 @@ static unsigned char lora_bits[] = {
   0x0f, 0x18, 0x33, 0x24, 0x29, 0x2b, 0x29, 0x24, 0x33, 0x18, 0x0f
 };
 
-#define wifi_width 6        /// a simple logo that shows when we operate with WiFi, stored in XBM format
-#define wifi_height 11
-static unsigned char wifi_bits[] = {
-   0x00, 0x08, 0x10, 0x24, 0x29, 0x2b, 0x29, 0x24, 0x10, 0x08, 0x00 };
 
 volatile uint64_t MorseOutput::TOTcounter;                       // holds millis for Time-Out Timer
 
@@ -445,10 +441,7 @@ void MorseOutput::dispLoraLogo() {                     /// display a small logo 
 }
 
 void MorseOutput::dispWifiLogo() {     // display a small logo in the top right corner to indicate we operate with WiFi
-  Heltec.display -> setColor(BLACK);
-  Heltec.display -> drawXbm(121, 2, wifi_width, wifi_height, wifi_bits);
-  Heltec.display -> setColor(WHITE);
-  Heltec.display -> display();
+
 }
 
 //////// Display the status line in CW Keyer Mode

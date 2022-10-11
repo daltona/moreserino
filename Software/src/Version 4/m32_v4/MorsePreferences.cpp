@@ -1655,53 +1655,6 @@ void MorsePreferences::writeWifiInfoMultiple(
   String ssid3, String passwd3, String trxpeer3
   )
 {
-    pref.begin("morserino", false);             // open the namespace as read/write
-
-    if (ssid1 != "")
-      MorsePreferences::wlanSSID1 = ssid1;
-    if (passwd1 != "")
-      MorsePreferences::wlanPassword1 = passwd1;
-    //if (trxpeer != "")
-      MorsePreferences::wlanTRXPeer1 = trxpeer1;
-
-    if (MorsePreferences::wlanSSID1 != pref.getString("wlanSSID1"))
-        pref.putString("wlanSSID1", MorsePreferences::wlanSSID1);
-    if (MorsePreferences::wlanPassword1 != pref.getString("wlanPassword1"))
-        pref.putString("wlanPassword1", MorsePreferences::wlanPassword1);
-    if (MorsePreferences::wlanTRXPeer1 != pref.getString("wlanTRXPeer1"))
-        pref.putString("wlanTRXPeer1", MorsePreferences::wlanTRXPeer1);
-
-    if (ssid2 != "")
-      MorsePreferences::wlanSSID2 = ssid2;
-    if (passwd2 != "")
-      MorsePreferences::wlanPassword2 = passwd2;
-    //if (trxpeer != "")
-      MorsePreferences::wlanTRXPeer2 = trxpeer2;
-
-    if (MorsePreferences::wlanSSID2 != pref.getString("wlanSSID2"))
-        pref.putString("wlanSSID2", MorsePreferences::wlanSSID2);
-    if (MorsePreferences::wlanPassword2 != pref.getString("wlanPassword2"))
-        pref.putString("wlanPassword2", MorsePreferences::wlanPassword2);
-    if (MorsePreferences::wlanTRXPeer2 != pref.getString("wlanTRXPeer2"))
-        pref.putString("wlanTRXPeer2", MorsePreferences::wlanTRXPeer2);
-
-    if (ssid3 != "")
-      MorsePreferences::wlanSSID3 = ssid3;
-    if (passwd3 != "")
-      MorsePreferences::wlanPassword3 = passwd3;
-    //if (trxpeer != "")
-      MorsePreferences::wlanTRXPeer3 = trxpeer3;
-
-    if (MorsePreferences::wlanSSID3 != pref.getString("wlanSSID3"))
-        pref.putString("wlanSSID3", MorsePreferences::wlanSSID3);
-    if (MorsePreferences::wlanPassword3 != pref.getString("wlanPassword3"))
-        pref.putString("wlanPassword3", MorsePreferences::wlanPassword3);
-    if (MorsePreferences::wlanTRXPeer3 != pref.getString("wlanTRXPeer3"))
-        pref.putString("wlanTRXPeer3", MorsePreferences::wlanTRXPeer3);
-
-    pref.end();
-
-    writeWifiInfo(ssid1, passwd1, trxpeer1);
 }
 
 void MorsePreferences::writeWifiInfo(String ssid, String passwd, String trxpeer)

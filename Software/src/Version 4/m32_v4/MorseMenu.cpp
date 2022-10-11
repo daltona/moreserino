@@ -21,7 +21,7 @@ using namespace MorseMenu;
 //////// variables and constants for the modus menu
 
 
-const uint8_t menuN = 43;     // no of menu items +1
+const uint8_t menuN = 35;     // no of menu items +1
 
 const String menuText [menuN] = {
   "",
@@ -65,16 +65,7 @@ const String menuText [menuN] = {
   
   "CW Decoder",     // 34
 
-  "WiFi Functions", // 35
-    "Disp MAC Addr",
-    "Config WiFi",
-    "Check WiFi",
-    "Upload File",
-    "Update Firmw", //40
-    "Wifi Select", //41
-  
-  
-  "Go To Sleep" } ; // 42
+} ; // 42
 
 enum navi {naviLevel, naviLeft, naviRight, naviUp, naviDown };
        
@@ -115,14 +106,6 @@ const uint8_t menuNav [menuN] [5] = {                   // { level, left, right,
   {1,_trxLora,_trxIcw,_trx,0},                          // 32 wifi
   {1,_trxWifi,_trxLora,_trx,0},                         // 33 icw
   {0,_trx,_wifi,_dummy,0},                              // 34 decoder
-  {0,_decode,_goToSleep,_dummy,_wifi_mac},              // 35 WiFi
-  {1,_wifi_select,_wifi_config,_wifi,0},                // 36 Disp Mac
-  {1,_wifi_mac,_wifi_check,_wifi,0},                    // 37 Config Wifi
-  {1,_wifi_config,_wifi_upload,_wifi,0},                // 38 Check WiFi
-  {1,_wifi_check,_wifi_update,_wifi,0},                 // 39 Upload File
-  {1,_wifi_upload,_wifi_select,_wifi,0},                // 40 Update Firmware
-  {1,_wifi_update,_wifi_mac,_wifi,0},                   // 41 Select network
-  {0,_wifi,_keyer,_dummy,0}                             // 42 goto sleep
 };
 
 //boolean quickStart;                                     // should we execute menu item immediately?
@@ -136,7 +119,6 @@ void MorseMenu::menu_() {
    int t, command;
    
     LoRa.idle();
-    WiFi.disconnect(true, false);
     active = false;
     cleanStartSettings();
     MorseOutput::clearScroll();                  // clear the buffer
@@ -289,9 +271,6 @@ boolean MorseMenu::menuExec() {                                          // retu
                 firstTime = true;
                 morseState = morseGenerator;
                 showStartDisplay("Generator     ", "Start/Stop:   ", "Paddle | BLACK", 1250);
-                if (MorsePreferences::loraTrainerMode == 2)
-                  if (!setupWifi())
-                    return false;
                 return true;
                 break;
       case  _echoRand:
@@ -390,24 +369,6 @@ boolean MorseMenu::menuExec() {                                          // retu
                 return true;
                 break;
       case  _trxWifi: // Wifi Transceiver
-                generatorMode = RANDOMS;  // to reset potential KOCH_LEARN
-                MorsePreferences::setCurrentOptions(MorsePreferences::wifiTrxOptions, MorsePreferences::wifiTrxOptionsSize);
-                morseState = wifiTrx;
-                MorseOutput::clearDisplay();
-                MorseOutput::printOnScroll(0, REGULAR, 0, "Connecting...");
-
-                if (!setupWifi())
-                  return false;
-                //DEBUG("Peer IP: " + peerIP.toString());
-                s = peerIP.toString();
-                showStartDisplay("", "Start Wifi Trx", s  == "255.255.255.255" ?"IP Broadcast" : s, 1500);
-
-                MorseWiFi::audp.listen(MORSERINOPORT); // listen on port 7373
-                MorseWiFi::audp.onPacket(onWifiReceive);
-                clearPaddleLatches();
-                //keyTx = false;
-                clearText = "";
-                return true;
                 break;
       case  _trxIcw: /// icw/ext TRX
                 MorsePreferences::setCurrentOptions(MorsePreferences::extTrxOptions, MorsePreferences::extTrxOptionsSize);
@@ -436,16 +397,6 @@ boolean MorseMenu::menuExec() {                                          // retu
                 audioDecoder.setup();
                 return true;
                 break;
-      case  _wifi_mac:
-      case  _wifi_config:
-      case _wifi_check:
-      case _wifi_upload:
-      case _wifi_update:
-                  MorseWiFi::menuExec((uint8_t) MorsePreferences::menuPtr);
-                  break;
-      case _wifi_select:
-                  MorseWiFi::menuNetSelect();
-                  break;
       case  _goToSleep: /// deep sleep
                 checkShutDown(true);
       default:  break;
@@ -458,24 +409,8 @@ boolean MorseMenu::setupWifi() {
   const char* peerHost;
 
 //// if not true WiFi has not been configured or is not available, hence return false!
-  if (! MorseWiFi::wifiConnect()) {
-    delay(1000);    // wait a bit
-    return(false);
-  }
+  return false;
 
-  if (MorsePreferences::wlanTRXPeer.length() == 0) 
-      peer = "255.255.255.255";     // send to local broadcast IP if not set
-  else
-      peer = MorsePreferences::wlanTRXPeer;
-  peerHost = peer.c_str();
-  if (!peerIP.fromString(peerHost)) {    // try to interpret the peer as an ip address...
-    //DEBUG("hostname: " + String(peerHost));
-      int err = WiFi.hostByName(peerHost, peerIP); // ...and resolve peer into ip address if that fails
-    //DEBUG("errcode: " + String(err));
-      if (err != 1)                       // if that fails too, use broadcast
-        peerIP.fromString("255.255.255.255");
-  }
-  return true;
 }
 
 

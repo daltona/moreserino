@@ -136,8 +136,6 @@ void Decoder::decode() {
                                        cwForTx(3);
                                        if (morseState == loraTrx)
                                             sendWithLora();                        // finalise the string and send it to LoRA
-                                       else
-                                            sendWithWifi();
                                    }
                               }
                           }

@@ -4,7 +4,6 @@
 #include <Arduino.h>
 #include "morsedefs.h"
 #include "MorsePreferences.h"
-#include "MorseWiFi.h"
 #include "MorseDecoder.h"
 
 
