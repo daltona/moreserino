@@ -148,6 +148,7 @@ void MorseMenu::menu_() {
         else {           
             Buttons::modeButton.Update();
             command = Buttons::modeButton.clicks;
+            Buttons::modeButton.clicks = 0;
         }
 
         switch (command) {                                          // actions based on encoder button

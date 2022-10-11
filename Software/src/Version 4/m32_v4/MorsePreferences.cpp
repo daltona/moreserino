@@ -236,6 +236,7 @@ boolean MorsePreferences::setupPreferences(uint8_t atMenu) {
                         return false;
                         break;
           }
+          Buttons::modeButton.clicks = 0;
 
           Buttons:: volButton.Update();                 // RED button
           switch (Buttons:: volButton.clicks) {         // was clicked
